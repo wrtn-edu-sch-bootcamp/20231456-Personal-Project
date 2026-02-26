@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { renderMarkdownText } from "@/lib/render-markdown";
+import { saveHistory, riskLabel } from "@/lib/history";
 import { TooltipText, useTooltipContext } from "@/lib/tooltip-renderer";
 
 // ── 타입 정의 ──────────────────────────────────────────────
@@ -193,6 +194,7 @@ export default function RegisterPage() {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [copied, setCopied] = useState(false);
   const [toast, setToast] = useState(false);
+  const [roomName, setRoomName] = useState("");
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -225,6 +227,7 @@ export default function RegisterPage() {
     setResult(null);
     setErrorMsg("");
     setCopied(false);
+    setRoomName("");
   }
 
   async function handleAnalyze() {
@@ -243,8 +246,19 @@ export default function RegisterPage() {
       });
       const data = await res.json();
       if (!res.ok || data.error) throw new Error(data.error ?? "알 수 없는 오류가 발생했습니다.");
-      setResult(data.result as RegisterResult);
+      const parsed = data.result as RegisterResult;
+      setResult(parsed);
       setStatus("success");
+      if (parsed.summary && !parsed.summary.includes("다시 업로드해 주세요")) {
+        const label = riskLabel(parsed.riskScore);
+        saveHistory({
+          type: "register",
+          roomName: roomName.trim() || "이름 없는 방",
+          summary: `${label ? label + " " : ""}${parsed.summary.slice(0, 50)}${parsed.summary.length > 50 ? "…" : ""}`,
+          riskScore: parsed.riskScore,
+          detail: parsed.summary,
+        });
+      }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "오류가 발생했습니다.");
       setStatus("error");
@@ -483,6 +497,24 @@ export default function RegisterPage() {
                 </a>
               )}
 
+              {/* 안전 등급(0~30점)일 때만 이사/청소 배너 표시 */}
+              {result.riskScore !== null && result.riskScore <= 30 && (
+                <a
+                  href="https://www.zimssa.kr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-4 transition-all hover:bg-blue-100 hover:border-blue-300 active:scale-[0.98]"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-xl">
+                    🚚
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-blue-700">이 집으로 결정하셨나요?</p>
+                    <p className="text-xs text-blue-500 mt-0.5">이사/입주청소 견적 알아보기 →</p>
+                  </div>
+                </a>
+              )}
+
             </div>
           )}
 
@@ -500,8 +532,21 @@ export default function RegisterPage() {
           )}
         </section>
 
+        {/* 방 이름 입력 (분석 전에만 표시) */}
+        {!isSuccess && (
+          <div className="mt-4">
+            <input
+              type="text"
+              value={roomName}
+              onChange={(e) => setRoomName(e.target.value)}
+              placeholder="방 이름을 적어주세요 (예: 신림동 201호, 햇빛 투룸)"
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-100 transition-all"
+            />
+          </div>
+        )}
+
         {/* 하단 버튼 */}
-        <div className="mt-6 pb-4">
+        <div className="mt-3 pb-4">
           {isSuccess ? (
             <button
               onClick={handleReset}

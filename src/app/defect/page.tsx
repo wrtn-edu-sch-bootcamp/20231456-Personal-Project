@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { saveHistory } from "@/lib/history";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -67,6 +68,7 @@ export default function DefectPage() {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [copied, setCopied] = useState(false);
   const [toast, setToast] = useState(false);
+  const [roomName, setRoomName] = useState("");
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -101,6 +103,7 @@ export default function DefectPage() {
     setResult(null);
     setErrorMsg("");
     setCopied(false);
+    setRoomName("");
   }
 
   async function handleAnalyze() {
@@ -119,8 +122,21 @@ export default function DefectPage() {
       });
       const data = await res.json();
       if (!res.ok || data.error) throw new Error(data.error ?? "알 수 없는 오류가 발생했습니다.");
-      setResult(data.result as DefectResult);
+      const parsed = data.result as DefectResult;
+      setResult(parsed);
       setStatus("success");
+      if (!parsed.isException && parsed.messageTemplate) {
+        saveHistory({
+          type: "defect",
+          roomName: roomName.trim() || "이름 없는 방",
+          summary: parsed.messageTemplate.slice(0, 60) + (parsed.messageTemplate.length > 60 ? "…" : ""),
+          detail: [
+            parsed.messageTemplate,
+            parsed.estimateSummary ? `\n💰 ${parsed.estimateSummary}` : "",
+            parsed.estimateNote ? `\n${parsed.estimateNote}` : "",
+          ].join(""),
+        });
+      }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "오류가 발생했습니다.");
       setStatus("error");
@@ -370,8 +386,21 @@ export default function DefectPage() {
           )}
         </section>
 
+        {/* 방 이름 입력 (분석 전에만 표시) */}
+        {!isSuccess && (
+          <div className="mt-4">
+            <input
+              type="text"
+              value={roomName}
+              onChange={(e) => setRoomName(e.target.value)}
+              placeholder="방 이름을 적어주세요 (예: 신림동 201호, 햇빛 투룸)"
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
+            />
+          </div>
+        )}
+
         {/* 하단 버튼 */}
-        <div className="mt-6 pb-4">
+        <div className="mt-3 pb-4">
           {isSuccess ? (
             <button
               onClick={handleReset}
