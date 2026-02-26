@@ -81,7 +81,7 @@ export default function DefectPage() {
 
     setImages((prev) => [...prev, ...newItems]);
     setStatus("idle");
-    setResult("");
+    setResult(null);
     setErrorMsg("");
     e.target.value = "";
   }
@@ -92,7 +92,7 @@ export default function DefectPage() {
       return prev.filter((_, i) => i !== index);
     });
     setStatus("idle");
-    setResult("");
+    setResult(null);
     setErrorMsg("");
   }
 
@@ -109,7 +109,7 @@ export default function DefectPage() {
   async function handleAnalyze() {
     if (!images.length) return;
     setStatus("loading");
-    setResult("");
+    setResult(null);
     setErrorMsg("");
     setCopied(false);
 
