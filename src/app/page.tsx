@@ -21,9 +21,9 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100">
-      <main className="flex w-full max-w-md min-h-screen flex-col px-6 py-12">
+      <main className="flex w-full max-w-md min-h-screen flex-col px-6 py-8">
         {/* 헤더 */}
-        <header className="flex flex-col items-center text-center mb-12 mt-8">
+        <header className="flex flex-col items-center text-center mb-8 mt-6">
           <div className="flex items-center gap-2 mb-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-md">
               <ShieldCheck className="h-6 w-6 text-white" />
@@ -33,77 +33,62 @@ export default function Home() {
             </h1>
           </div>
           <p className="text-sm leading-relaxed text-slate-500 max-w-xs">
-            나의 첫 자취방, 물리적 하자부터 법적 권리까지
+            숨은 하자도, 복잡한 서류도 사진 한 장으로 쓱- 🔍
             <br />
             <span className="font-semibold text-indigo-600">원클릭 체크!</span>
           </p>
         </header>
 
         {/* 메인 버튼 영역 */}
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-5">
 
-          {/* 1순위: 계약 전 체크리스트 */}
+          {/* 1순위: 계약 전 체크리스트 (full width, 슬림) */}
           <Link href="/checklist" className="group block">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 shadow-lg shadow-indigo-200 transition-transform duration-200 active:scale-[0.98]">
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 mb-4">
-                    <ClipboardList className="h-6 w-6 text-white" />
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 px-5 py-4 shadow-lg shadow-indigo-200 transition-transform duration-200 active:scale-[0.98]">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20">
+                    <ClipboardList className="h-5 w-5 text-white" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-1">
-                    계약 전 체크리스트
-                  </h2>
-                  <p className="text-sm text-indigo-100">
-                    계약 유형·건물별 필수 확인 항목을 체크해요
-                  </p>
+                  <div>
+                    <h2 className="text-base font-bold text-white leading-tight">계약 전 체크리스트</h2>
+                    <p className="text-xs text-indigo-100 mt-0.5">계약 유형·건물별 필수 항목 확인</p>
+                  </div>
                 </div>
-                <ChevronRight className="h-5 w-5 text-white/60 mt-1 transition-transform group-hover:translate-x-1" />
+                <ChevronRight className="h-5 w-5 text-white/60 shrink-0 transition-transform group-hover:translate-x-1" />
               </div>
-              <div className="absolute -right-4 -bottom-4 h-24 w-24 rounded-full bg-white/10" />
+              <div className="absolute -right-4 -bottom-4 h-20 w-20 rounded-full bg-white/10" />
             </div>
           </Link>
 
-          {/* 2순위: 방 하자 분석 */}
-          <Link href="/defect" className="group block">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 shadow-lg shadow-blue-200 transition-transform duration-200 active:scale-[0.98]">
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 mb-4">
-                    <House className="h-6 w-6 text-white" />
-                  </div>
-                  <h2 className="text-xl font-bold text-white mb-1">
-                    방 하자 분석하기
-                  </h2>
-                  <p className="text-sm text-blue-100">
-                    사진을 찍으면 AI가 곰팡이·균열·누수를 분석해드려요
-                  </p>
+          {/* 2·3순위: 2열 그리드 */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* 방 하자 분석 */}
+            <Link href="/defect" className="group block">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-4 shadow-lg shadow-blue-200 transition-transform duration-200 active:scale-[0.98] aspect-[4/3] flex flex-col items-center justify-center text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 mb-3">
+                  <House className="h-6 w-6 text-white" />
                 </div>
-                <ChevronRight className="h-5 w-5 text-white/60 mt-1 transition-transform group-hover:translate-x-1" />
+                <h2 className="text-sm font-bold text-white leading-snug">
+                  방 하자<br />분석하기
+                </h2>
+                <div className="absolute -right-3 -bottom-3 h-16 w-16 rounded-full bg-white/10" />
               </div>
-              <div className="absolute -right-4 -bottom-4 h-24 w-24 rounded-full bg-white/10" />
-            </div>
-          </Link>
+            </Link>
 
-          {/* 3순위: 등기부등본 분석 */}
-          <Link href="/register" className="group block">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-500 to-teal-600 p-6 shadow-lg shadow-teal-200 transition-transform duration-200 active:scale-[0.98]">
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 mb-4">
-                    <FileText className="h-6 w-6 text-white" />
-                  </div>
-                  <h2 className="text-xl font-bold text-white mb-1">
-                    등기부등본 분석하기
-                  </h2>
-                  <p className="text-sm text-teal-100">
-                    서류를 업로드하면 AI가 권리관계·위험요소를 짚어드려요
-                  </p>
+            {/* 등기부등본 분석 */}
+            <Link href="/register" className="group block">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-500 to-teal-600 p-4 shadow-lg shadow-teal-200 transition-transform duration-200 active:scale-[0.98] aspect-[4/3] flex flex-col items-center justify-center text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 mb-3">
+                  <FileText className="h-6 w-6 text-white" />
                 </div>
-                <ChevronRight className="h-5 w-5 text-white/60 mt-1 transition-transform group-hover:translate-x-1" />
+                <h2 className="text-sm font-bold text-white leading-snug">
+                  등기부등본<br />분석하기
+                </h2>
+                <div className="absolute -right-3 -bottom-3 h-16 w-16 rounded-full bg-white/10" />
               </div>
-              <div className="absolute -right-4 -bottom-4 h-24 w-24 rounded-full bg-white/10" />
-            </div>
-          </Link>
+            </Link>
+          </div>
         </section>
 
         {/* 분석 기록 섹션 */}
@@ -164,7 +149,7 @@ export default function Home() {
         </section>
 
         {/* 푸터 */}
-        <footer className="mt-10 text-center">
+        <footer className="mt-6 text-center">
           <p className="text-xs text-slate-400">
             AI 분석 결과는 참고용이며, 전문가 상담을 권장합니다.
           </p>
