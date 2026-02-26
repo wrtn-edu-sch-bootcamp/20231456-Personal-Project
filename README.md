@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏠 체크마이룸 (Check My Room)
 
-## Getting Started
+> **"사진 한 장으로 끝내는 내 방 안전 진단 & 집주인 소통 가이드"**
+>
+> 사회초년생의 부동산 언어 장벽과 정보 비대칭을 AI로 해결하는 MVP 서비스입니다.
 
-First, run the development server:
+<br>
+
+## 🚨 문제 정의 (Problem)
+
+단순히 "자취생이 방 구하기 어렵다"는 것이 아닙니다. 청년들이 겪는 **진짜 문제**는 다음과 같습니다.
+
+1. **법률 용어 해독 불가 (정보 비대칭):** 등기부등본을 발급받아도 '근저당권', '선순위 채권' 등의 용어를 이해하지 못해 서류를 보고도 사기 위험에 노출됩니다.
+2. **소통의 두려움 (권력 비대칭):** 방의 하자를 발견해도 정확한 명칭(예: 강마루 파손, 결로 현상 등)을 몰라 제대로 따지지 못하며, 임대인에게 수리를 요청하는 것 자체에 심리적 장벽을 느낍니다.
+
+## 💡 해결 방안 (Solution)
+
+**"AI를 통한 부동산 용어 번역 및 커뮤니케이션 대행"**
+
+사용자가 눈으로 본 직관적인 이미지(서류, 방 사진)를 업로드하면, AI(Gemini)가 이를 전문적인 부동산/법률 데이터로 분석하고 **행동 지침(문자 템플릿, 대처 매뉴얼)**으로 변환하여 제공합니다.
+
+<br>
+
+## ✨ 핵심 기능 (Core Features)
+
+### 1️⃣ 계약 전 체크리스트
+- 전세/월세 및 건물 유형에 따라 반드시 확인해야 할 맞춤형 체크리스트 제공
+- 진행 상황을 브라우저 localStorage에 저장하여 새로고침 후에도 체크 이력 유지
+
+### 2️⃣ 방 상태 분석 및 집주인 소통 봇
+- **카메라 직결 / 갤러리 다중 업로드:** 후면 카메라로 즉시 촬영하거나 갤러리에서 여러 장 동시 선택
+- **다중 이미지 종합 분석:** 여러 부위 사진을 한 번에 올리면 AI가 모든 하자를 통합 분석
+- **AI 하자 분석:** 사진 속 하자를 '건축/부동산 전문 용어'로 정확히 진단
+- **문자 템플릿 자동 생성:** 수리 요청 문자를 즉시 복사 가능한 형태로 제공
+- **평균 수리 견적 제공:** 발견된 하자 종류에 따른 시장 평균 수리 비용을 참고용으로 함께 안내
+- **수리 업체 연결:** 네이버 지도 '주변 인테리어 수리' 검색으로 바로 연결되는 외부 링크 버튼 제공
+- **랜덤 꿀팁 말풍선:** 사진 업로드 전 빈 화면에 자취 생활 꿀팁을 캐릭터 말풍선 형태로 랜덤 표시
+- **예외 처리:** 관련 없는 사진 업로드 시 재업로드 안내 메시지 출력
+
+### 3️⃣ 등기부등본 위험도 스캐너
+- **다중 페이지 업로드:** 갑구·을구 등 여러 페이지를 한 번에 올려 종합 분석
+- **위험도 점수화:** 안전(🟢 0~30점), 주의(🟡 31~70점), 위험(🔴 71~100점) 3단계 원형 게이지 시각화
+- **6대 핵심 항목 체크포인트:** 근저당/담보권, 소유권 안전성, 압류/가압류, 신탁등기, 가등기/가처분, 임차권 등기를 아코디언 형태로 항목별 상세 분석 (압류·임차권 등기 발견 시 즉시 최고 위험 경고)
+- **법률 용어 툴팁:** 결과 텍스트 내 어려운 용어(근저당, 가압류, 전세권 등)를 터치하면 쉬운 설명 말풍선 표시
+- **HUG 안심전세포털 연동:** 위험 등급(71점↑) 판정 시 정부 공식 대처 매뉴얼 링크 자동 노출
+- **랜덤 꿀팁 말풍선:** 사진 업로드 전 빈 화면에 부동산 계약 꿀팁을 캐릭터 말풍선 형태로 랜덤 표시
+- **예외 처리:** 등기부등본이 아닌 사진 업로드 시 재업로드 안내 메시지 출력
+
+<br>
+
+## 🛠 기술 스택 (Tech Stack)
+
+| 분류 | 기술 |
+|---|---|
+| **Frontend** | Next.js 16 (App Router), TypeScript, Tailwind CSS |
+| **AI & API** | Google Gemini 2.5 Flash (멀티모달 이미지 분석) |
+| **Tool** | Cursor AI, MCP (개발 생산성 및 로직 고도화) |
+
+<br>
+
+## 🚀 프로젝트 실행 방법 (How to run)
 
 ```bash
+# 1. 저장소 클론
+git clone https://github.com/wrtn-edu-sch-bootcamp/20231456-Personal-Project.git
+
+# 2. 패키지 설치
+npm install
+
+# 3. 환경 변수 설정
+# 루트 경로에 .env.local 파일 생성 후 아래 내용 입력
+GEMINI_API_KEY="본인의 Gemini API 키 입력"
+
+# 4. 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **API 키 발급:** [Google AI Studio](https://aistudio.google.com/app/apikey)에서 무료로 발급받을 수 있습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<br>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 프로젝트 구조
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/
+│   ├── page.tsx              # 메인 화면
+│   ├── checklist/page.tsx    # 계약 전 체크리스트
+│   ├── defect/page.tsx       # 방 하자 분석
+│   ├── register/page.tsx     # 등기부등본 분석
+│   └── api/analyze/route.ts  # Gemini API 라우트
+└── lib/
+    ├── checklist-data.ts     # 체크리스트 데이터
+    ├── render-markdown.tsx   # 마크다운 렌더링 유틸
+    └── tooltip-renderer.tsx  # 법률 용어 툴팁 컴포넌트
+```
