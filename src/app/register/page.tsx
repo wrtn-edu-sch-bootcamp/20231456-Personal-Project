@@ -142,7 +142,7 @@ function RiskGauge({ score }: { score: number }) {
 }
 
 // ── 체크포인트 아이템 ─────────────────────────────────────
-function CheckpointItem({ item }: { item: Checkpoint }) {
+function CheckpointItem({ item, tooltipCtx }: { item: Checkpoint; tooltipCtx: ReturnType<typeof useTooltipContext> }) {
   const [open, setOpen] = useState(false);
   const style = CHECKPOINT_STYLE[item.status];
 
@@ -480,7 +480,7 @@ export default function RegisterPage() {
                 </div>
                 <ul className="flex flex-col gap-2 p-3">
                   {result.checkpoints.map((cp) => (
-                    <CheckpointItem key={cp.label} item={cp} />
+                    <CheckpointItem key={cp.label} item={cp} tooltipCtx={tooltipCtx} />
                   ))}
                 </ul>
               </div>}
