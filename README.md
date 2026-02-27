@@ -54,7 +54,7 @@
 |---|---|
 | **Frontend** | Next.js 16 (App Router), TypeScript, Tailwind CSS |
 | **AI & API** | Google Gemini 2.5 Flash (멀티모달 이미지 분석) |
-| **Tool** | Cursor AI, MCP (개발 생산성 및 로직 고도화) |
+| **Tool** | Cursor AI |
 
 <br>
 
