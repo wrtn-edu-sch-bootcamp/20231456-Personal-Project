@@ -54,7 +54,7 @@
 |---|---|
 | **Frontend** | Next.js 16 (App Router), TypeScript, Tailwind CSS |
 | **AI & API** | Google Gemini 2.5 Flash (멀티모달 이미지 분석) |
-| **Tool** | Cursor AI |
+| **Tool** | Cursor AI, Google Gemini, ChatGPT, Claude |
 
 <br>
 
